@@ -38,7 +38,10 @@ public class baseSteps extends PropertyReader {
 	public void is_called(String resposneClass){
 		RequestSpecification request = RestAssured.given();
 		request.body(ReqBody.toJSONString());
-		Response = request.post("/register");
+		propertyMap = pr.ReadPropertyFile("endpoint.properties");
+		String endPnt =resposneClass + ".uri";
+		String endPntUri = (String) propertyMap.get(endPnt);
+		Response = request.post(endPntUri);
 	}
 
 	@Then("^gets a successful response$")

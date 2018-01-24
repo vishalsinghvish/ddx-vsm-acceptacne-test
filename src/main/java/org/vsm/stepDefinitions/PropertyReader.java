@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Set;
 
 public class PropertyReader {
 	
@@ -21,7 +22,6 @@ public class PropertyReader {
 		properties.load(fis);                              // IOException
 		fis.close();
 		
-//		HashMap<String,Object> propertyMap = new HashMap<String,Object>();
 		Enumeration<Object> enumKeys = properties.keys();
 		while(enumKeys.hasMoreElements()) {
 			String key = (String) enumKeys.nextElement();

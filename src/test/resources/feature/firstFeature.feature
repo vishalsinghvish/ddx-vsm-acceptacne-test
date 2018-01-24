@@ -1,6 +1,7 @@
 Feature: Validating response for this registration API
   I want to use this template for my feature file
 
+@test
   Scenario: Title of your scenario
     Given a maximal request "demoRequestWrapper"
     And request field "FirstName" is "Virender"
