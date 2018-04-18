@@ -1,6 +1,13 @@
 package org.vsm.stepDefinitions;
 
+import java.util.HashMap;
+
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import org.vsm.VSMTestRunner;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -11,17 +18,18 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 
-public class baseSteps extends PropertyReader {
+public class baseSteps {
 	
-	PropertyReader pr = new PropertyReader();
 	static JSONObject ReqBody = new JSONObject(); 
-	static String StatusCode = "statusCode";
 	static Response Response;
+	static String StatusCode = "statusCode";
+	PropertyReader pr = new PropertyReader();
+	HashMap<String, Object> endPointMap = pr.ReadPropertyFile("endpoint.properties");
+	HashMap<String, Object> envMap = pr.ReadPropertyFile("environment.properties");
 
 	@Given("^a maximal request \"([^\"]*)\"$")
 	public void a_maximal_request(String requestWrapper){
-		propertyMap = pr.ReadPropertyFile("environment.properties");
-		RestAssured.baseURI = (String) propertyMap.get(requestWrapper);
+		RestAssured.baseURI = (String) envMap.get(requestWrapper);
 	}
 	
 	@Given("^a (maximal|minimal) request \"([^\"]*)\" from \"([^\"]*)\"$")
@@ -38,10 +46,14 @@ public class baseSteps extends PropertyReader {
 	public void is_called(String resposneClass){
 		RequestSpecification request = RestAssured.given();
 		request.body(ReqBody.toJSONString());
-		propertyMap = pr.ReadPropertyFile("endpoint.properties");
+		System.out.println("****Request of "+ resposneClass+"****");
+		System.out.println(ReqBody.toJSONString());
+		
 		String endPnt =resposneClass + ".uri";
-		String endPntUri = (String) propertyMap.get(endPnt);
+		String endPntUri = (String) endPointMap.get(endPnt);
 		Response = request.post(endPntUri);
+		System.out.println("****Respones of "+ resposneClass+"****");
+		System.out.println(Response.prettyPrint());
 	}
 
 	@Then("^gets a successful response$")
@@ -54,6 +66,19 @@ public class baseSteps extends PropertyReader {
 	public void the_response_field_is(String ResponseField, String value) throws Throwable {
 		String resField = Response.jsonPath().get(ResponseField);
 		Assert.assertEquals(resField,value);
+	}
+	
+	@AfterClass
+	public static void tearDown() {
+
+//		Result result = JUnitCore.runClasses(VSMTestRunner.class);
+//		for(Failure failed : result.getFailures()) {
+//			System.out.println(failed.toString());
+//		}
+//		System.out.println(result.wasSuccessful());
+		
+		
+		
 	}
 	
 }
