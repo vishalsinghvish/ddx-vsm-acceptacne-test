@@ -27,14 +27,20 @@ public class baseSteps {
 	HashMap<String, Object> endPointMap = pr.ReadPropertyFile("endpoint.properties");
 	HashMap<String, Object> envMap = pr.ReadPropertyFile("environment.properties");
 
-	@Given("^a maximal request \"([^\"]*)\"$")
-	public void a_maximal_request(String requestWrapper){
+	@Given("^a maximal post request \"([^\"]*)\"$")
+	public void a_maximal_post_request(String requestWrapper){
 		RestAssured.baseURI = (String) envMap.get(requestWrapper);
 	}
 	
-	@Given("^a (maximal|minimal) request \"([^\"]*)\" from \"([^\"]*)\"$")
-	public void a_maximal_request_from(String requestWrapper, String location) {
+	@Given("^a maximal get request \"([^\"]*)\"$")
+	public void a_maximal_get_request(String requestWrapper){
+		RestAssured.baseURI = (String) envMap.get(requestWrapper);
+	}
+	
+	@And("^add generated token \"([^\"]*)\" to url$")
+	public void add_generated_token_to_url(String token){
 
+		RestAssured.baseURI = RestAssured.baseURI+"token";
 	}
 
 	@Given("^request field \"([^\"]*)\" is \"([^\"]*)\"$")
