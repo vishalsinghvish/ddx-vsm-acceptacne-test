@@ -1,6 +1,6 @@
 Feature: Validating response for this registration API
 
-@test
+
   Scenario: Calling post upload API
     Given a maximal post request "qubePostUploadWrapper"
     And add generated token "generated_Token" to url

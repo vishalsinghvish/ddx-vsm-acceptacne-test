@@ -34,13 +34,13 @@ public class baseSteps {
 	
 	@Given("^a maximal get request \"([^\"]*)\"$")
 	public void a_maximal_get_request(String requestWrapper){
-		RestAssured.baseURI = (String) envMap.get(requestWrapper);
+//		RestAssured.baseURI = (String) envMap.get(requestWrapper);
 	}
 	
 	@And("^add generated token \"([^\"]*)\" to url$")
 	public void add_generated_token_to_url(String token){
 
-		RestAssured.baseURI = RestAssured.baseURI+"token";
+		RestAssured.baseURI = RestAssured.baseURI+token;
 	}
 
 	@Given("^request field \"([^\"]*)\" is \"([^\"]*)\"$")
