@@ -22,6 +22,7 @@ public class baseSteps {
 	
 	static JSONObject ReqBody = new JSONObject(); 
 	static Response Response;
+	static String baseURi;
 	static String StatusCode = "statusCode";
 	PropertyReader pr = new PropertyReader();
 	HashMap<String, Object> endPointMap = pr.ReadPropertyFile("endpoint.properties");
@@ -29,7 +30,7 @@ public class baseSteps {
 
 	@Given("^a maximal post request \"([^\"]*)\"$")
 	public void a_maximal_post_request(String requestWrapper){
-		RestAssured.baseURI = (String) envMap.get(requestWrapper);
+		baseURi = (String) envMap.get(requestWrapper);
 	}
 	
 	@Given("^a maximal get request \"([^\"]*)\"$")
@@ -56,8 +57,24 @@ public class baseSteps {
 		System.out.println(ReqBody.toJSONString());
 		
 		String endPnt =resposneClass + ".uri";
+//		String endPntUri = (String) endPointMap.get(endPnt);
+		Response = request.post();
+		System.out.println("****Respones of "+ resposneClass+"****");
+		System.out.println(Response.prettyPrint());
+	}
+	
+	@When("^\"([^\"]*)\" is called with token \"([^\"]*)\"$")
+	public void is_called_with_token(String resposneClass, String token){
+		RequestSpecification request = RestAssured.given();
+		request.body(ReqBody.toJSONString());
+		System.out.println("****Request of "+ resposneClass+"****");
+		System.out.println(ReqBody.toJSONString());
+		
+		String endPnt =resposneClass + ".uri";
 		String endPntUri = (String) endPointMap.get(endPnt);
-		Response = request.post(endPntUri);
+		baseURi = baseURi+endPntUri;
+		request.baseUri(baseURi);
+		Response = request.post(baseURi, token);
 		System.out.println("****Respones of "+ resposneClass+"****");
 		System.out.println(Response.prettyPrint());
 	}

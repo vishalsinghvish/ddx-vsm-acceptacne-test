@@ -2,12 +2,12 @@ Feature: Validating response for this registration API
 
 @test
   Scenario: Title of your scenario
-    Given a maximal post request "qubeFileUploadWrapper"
-    And add generated token "77633eec-044f-4a78-884a-4152846235d1" to url
+    Given a maximal post request "qube"
+    #And add generated token "ea67efd9-020a-490c-b76b-814c33925ee6" to url
     And request field "name" is "File1"
-    And request field "size" is "10"
-    And request field "hash" is "xyz"
-    When "qubeFileUpload" is called 
+    And request field "size" is "12"
+    And request field "hash" is "bbb"
+    When "qubeFileUpload" is called with token "ea67efd9-020a-490c-b76b-814c33925ee6"
     And gets a successful response
     And the response field "fileId" is "User already exists"
 
