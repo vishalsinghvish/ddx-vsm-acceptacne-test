@@ -7,7 +7,7 @@ Feature: Validating response for this registration API
     And request field "name" is "File1"
     And request field "size" is "12"
     And request field "hash" is "bbb"
-    When "qubeFileUpload" is called with token "ea67efd9-020a-490c-b76b-814c33925ee6"
+    When "qubeFileUpload" is called with token "9f5a4795-8ff2-4932-9ada-2ca2735640ab"
     And gets a successful response
     And the response field "fileId" is "User already exists"
 

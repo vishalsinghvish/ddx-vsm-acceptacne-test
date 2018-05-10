@@ -22,7 +22,7 @@ public class baseSteps {
 	
 	static JSONObject ReqBody = new JSONObject(); 
 	static Response Response;
-	static String baseURi;
+//	static String baseURi;
 	static String StatusCode = "statusCode";
 	PropertyReader pr = new PropertyReader();
 	HashMap<String, Object> endPointMap = pr.ReadPropertyFile("endpoint.properties");
@@ -30,12 +30,12 @@ public class baseSteps {
 
 	@Given("^a maximal post request \"([^\"]*)\"$")
 	public void a_maximal_post_request(String requestWrapper){
-		baseURi = (String) envMap.get(requestWrapper);
+		RestAssured.baseURI = (String) envMap.get(requestWrapper);
 	}
 	
 	@Given("^a maximal get request \"([^\"]*)\"$")
 	public void a_maximal_get_request(String requestWrapper){
-//		RestAssured.baseURI = (String) envMap.get(requestWrapper);
+		RestAssured.baseURI = (String) envMap.get(requestWrapper);
 	}
 	
 	@And("^add generated token \"([^\"]*)\" to url$")
@@ -57,8 +57,9 @@ public class baseSteps {
 		System.out.println(ReqBody.toJSONString());
 		
 		String endPnt =resposneClass + ".uri";
-//		String endPntUri = (String) endPointMap.get(endPnt);
-		Response = request.post();
+		String endPntUri = (String) endPointMap.get(endPnt);
+		
+		Response = request.post(endPntUri);
 		System.out.println("****Respones of "+ resposneClass+"****");
 		System.out.println(Response.prettyPrint());
 	}
@@ -71,10 +72,12 @@ public class baseSteps {
 		System.out.println(ReqBody.toJSONString());
 		
 		String endPnt =resposneClass + ".uri";
-		String endPntUri = (String) endPointMap.get(endPnt);
-		baseURi = baseURi+endPntUri;
-		request.baseUri(baseURi);
-		Response = request.post(baseURi, token);
+		String endPntUri = (String) endPointMap.get(endPnt)+token;
+//		RestAssured.baseURI = RestAssured.baseURI+token;
+//		baseURi = baseURi+endPntUri;
+//		request.baseUri(baseURi);
+		Response = request.post(endPntUri);
+//		Response = request.post(baseURi, token);
 		System.out.println("****Respones of "+ resposneClass+"****");
 		System.out.println(Response.prettyPrint());
 	}
